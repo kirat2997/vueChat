@@ -15,7 +15,8 @@ Vue.use(Vuetify)
 Vue.config.productionTip = false
 sync(store, router)
 
-const socket = io('')
+const socket = io('http://localhost:3000')
+// const socket = io('')
 Vue.use(VueSocketIO, socket, store)
 /* eslint-disable no-new */
 new Vue({

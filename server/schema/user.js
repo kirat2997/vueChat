@@ -6,7 +6,8 @@ const userSchema = new Schema({
   username: String,
   password: String,
   currentRoom: String,
-  socket: String
+  socket: String,
+  active: Boolean
 })
 // Export Mongoose model
 module.exports =  mongoose.model('user', userSchema)

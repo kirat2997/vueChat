@@ -110,13 +110,12 @@ export default {
   methods: {
     disc () {
       this.$store.commit('RESET_DATA')
-      this.$socket.emit('logout', this.$store.state.user.username)
+      this.$socket.emit('logout', this.$store.state.user.username, this.roomName)
       this.$router.push('/')
     }
   },
   sockets: {
     updateUserList (list) {
-      console.log(list)
       this.list = list
     },
     updateRoomName (data) {

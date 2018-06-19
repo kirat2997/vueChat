@@ -8,7 +8,7 @@
       </li>
     </ol>
 
-    <v-form style="width:100%; position: absolute; bottom:0; left:0; background-color:#fafafa;" method="post" @submit.prevent="sendMessage">
+    <v-form id="chatForm" style="width:100%; position: absolute; bottom:0; left:0; background-color:#fafafa;" method="post" @submit.prevent="sendMessage">
       <v-text-field
         v-model="message"
         placeholder='ENTER YOUR MESSAGE'
@@ -19,18 +19,18 @@
         prepend-icon="mood"
         :prepend-icon-cb="() => displayEmoji = !displayEmoji"
       ></v-text-field>
-      <picker
-        v-if="displayEmoji"
-        @select="insertSymbol"
-        title="Pick your emoji…"
-        emoji="point_up"
-        id="picker"
-        :native="false"
-        set="apple"
-        style="width:100%; height: 30vh;"
-        :showPreview="false"
-      />
     </v-form>
+    <picker
+      v-if="displayEmoji"
+      @select="insertSymbol"
+      title="Pick your emoji…"
+      emoji="point_up"
+      id="picker"
+      :native="false"
+      set="apple"
+      style="width:100%; height: 30vh;"
+      :showPreview="false"
+    />
   </v-container>
 </template>
 
@@ -60,6 +60,7 @@ export default {
       }
     })
     this.$socket.emit('newRoom', this.room)
+    this.$socket.emit('loadChat', this.room)
   },
   methods: {
     insertSymbol (emoji) {
@@ -104,6 +105,14 @@ export default {
       setTimeout(() => {
         this.autoScroll()
       }, 300)
+    },
+    chats (data) {
+      data.forEach(obj => {
+        if (obj.from === this.$store.state.user.name) {
+          obj.from = 'You'
+        }
+      })
+      this.messageSet = [...data, ...this.messageSet]
     }
   },
   watch: {
@@ -122,11 +131,13 @@ export default {
     displayEmoji (newval, old) {
       if (newval) {
         document.getElementById('chatRoom').style.marginBottom = '45vh'
+        document.getElementById('chatForm').style.bottom = '30vh'
         setTimeout(() => {
           window.scrollTo(0, document.body.scrollHeight)
         }, 500)
       } else {
         document.getElementById('chatRoom').style.marginBottom = '15vh'
+        document.getElementById('chatForm').style.bottom = '0vh'
       }
     }
   }

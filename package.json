@@ -16,6 +16,7 @@
     "express": "^4.16.3",
     "moment": "^2.22.1",
     "mongoose": "^5.1.1",
+    "natural": "^0.6.1",
     "socket.io": "^2.1.1"
   }
 }
