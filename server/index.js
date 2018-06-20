@@ -14,8 +14,8 @@ const server = http.createServer(app)
 const io = socketIO(server)
 
 mongoose.Promise = global.Promise
-mongoose.connect('mongodb://localhost:27017/chatApp-test')
-// mongoose.connect('mongodb://kirat2997:qqqqqqqq1@ds153980.mlab.com:53980/chatapp')
+// mongoose.connect('mongodb://localhost:27017/chatApp-test')
+mongoose.connect('mongodb://kirat2997:qqqqqqqq1@ds153980.mlab.com:53980/chatapp')
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -76,7 +76,6 @@ io.on('connect', (socket) => {
 
   socket.on('logout', async (data, room) => {
     const user = await removeUser(socket.id)
-    console.log(user)
     if(user && room){
       const userList = await getUserList(room)
       io.to(room).emit('updateUserList', userList)
