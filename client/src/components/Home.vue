@@ -120,6 +120,7 @@ export default {
     },
     updateRoomName (data) {
       this.roomName = data
+      document.title = data + ' - VUE CHAT'
     },
     userTyping (data) {
       this.typing = data
